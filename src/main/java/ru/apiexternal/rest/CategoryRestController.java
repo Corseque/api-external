@@ -18,23 +18,23 @@ public class CategoryRestController {
 
     @GetMapping("/all")
     public List<CategoryDto> getManufacturerList() {
-        return categoryGateway.getManufacturerList();
+        return categoryGateway.getCategoryList();
     }
 
     @GetMapping("/{categoryId}")
     public ResponseEntity<?> getManufacturer(@PathVariable(name = "categoryId") Long id) {
-        return categoryGateway.getManufacturer(id);
+        return categoryGateway.getCategory(id);
     }
 
     @PostMapping
     public ResponseEntity<?> addManufacturer(@Validated @RequestBody CategoryDto categoryDto) {
-        return categoryGateway.addManufacturer(categoryDto);
+        return categoryGateway.addCategory(categoryDto);
     }
 
     @PutMapping("/{categoryId}")
     public ResponseEntity<?> updateManufacturer(@PathVariable(name = "categoryId") Long id,
                                                 @Validated @RequestBody CategoryDto categoryDto) {
-        return categoryGateway.updateManufacturer(id, categoryDto);
+        return categoryGateway.updateCategory(id, categoryDto);
     }
 
     @DeleteMapping("/{categoryId}")
