@@ -51,7 +51,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation files('../lib/api-0.0.9-plain.jar')
+    implementation files('../lib/api-0.0.11-plain.jar')
 }
 
 dependencyManagement {

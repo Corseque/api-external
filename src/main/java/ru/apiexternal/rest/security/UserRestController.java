@@ -38,6 +38,17 @@ public class UserRestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getUserByUsername(@Validated @RequestBody UserDto userDto) {
+        if (userDto.getUsername() != null) {
+            UserDto userFromDB = userService.findByName(userDto.getUsername());
+            if (userFromDB.getId() != null) {
+                return new ResponseEntity<>(userFromDB, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping
     public ResponseEntity<?> addUser(@Validated @RequestBody UserDto userDto) {
         UserDto savedUser = userService.register(userDto);
