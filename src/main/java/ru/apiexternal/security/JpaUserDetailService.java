@@ -2,6 +2,8 @@ package ru.apiexternal.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,12 +35,6 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
     private final AccountRoleDao accountRoleDao;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-//    private JpaUserDetailService userService;
-//
-//    @Autowired
-//    public void setUserService(JpaUserDetailService jpaUserDetailService) {
-//        this.userService = jpaUserDetailService;
-//    }
 
     @Override
     @Transactional
@@ -64,7 +60,6 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         return userMapper.toUserDto(registeredAccountUser);
     }
 
-    @Override
     public UserDto update(UserDto userDto) {
         AccountUser accountUser = userMapper.toAccountUser(userDto);
         if (accountUser.getId() != null) {

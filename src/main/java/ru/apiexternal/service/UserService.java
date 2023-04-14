@@ -10,7 +10,7 @@ public interface UserService {
     List<UserDto> findAll();
     UserDto findByName(String name);
     UserDto findById(Long id);
-    UserDto update(UserDto userDto);
+//    UserDto update(UserDto userDto);
     void deleteById(Long id);
 
 
