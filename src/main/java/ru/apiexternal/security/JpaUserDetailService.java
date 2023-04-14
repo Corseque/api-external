@@ -2,8 +2,6 @@ package ru.apiexternal.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -60,6 +58,8 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         return userMapper.toUserDto(registeredAccountUser);
     }
 
+    @Override
+    @Transactional
     public UserDto update(UserDto userDto) {
         AccountUser accountUser = userMapper.toAccountUser(userDto);
         if (accountUser.getId() != null) {
@@ -93,6 +93,13 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
     public UserDto findByName(String name) {
         return userMapper.toUserDto(accountUserDao.findByUsername(name)
                 .orElseThrow(() -> new NoSuchElementException("There is no user with name " + name)));
+    }
+
+    @Override
+    public AccountUser findByUsername(String username) {
+        return accountUserDao.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("Username: " + username + " not found.")
+        );
     }
 
     @Override
