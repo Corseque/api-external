@@ -1,5 +1,6 @@
 package ru.apiexternal.service;
 
+import ru.api.security.AuthenticationUserDto;
 import ru.api.security.UserDto;
 import ru.apiexternal.entity.security.AccountUser;
 
@@ -15,5 +16,6 @@ public interface UserService {
     UserDto update(UserDto userDto);
     void deleteById(Long id);
 
+    AccountUser findByUsernameAndPassword(AuthenticationUserDto authenticationUserDto);
 
 }

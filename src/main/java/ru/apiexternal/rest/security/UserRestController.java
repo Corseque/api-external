@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.api.security.UserDto;
+import ru.apiexternal.exeption.UsernameAlreadyExistsException;
 import ru.apiexternal.service.UserService;
 
 import java.net.URI;
@@ -51,10 +52,15 @@ public class UserRestController {
 
     @PostMapping
     public ResponseEntity<?> addUser(@Validated @RequestBody UserDto userDto) {
-        UserDto savedUser = userService.register(userDto);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(URI.create("/api/v1/user/" + savedUser.getId()));
-        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        try {
+            UserDto savedUser = userService.register(userDto);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(URI.create("/api/v1/user/" + savedUser.getId()));
+            return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        } catch (UsernameAlreadyExistsException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @PutMapping("/{userId}")

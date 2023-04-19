@@ -8,12 +8,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.api.security.AuthenticationUserDto;
 import ru.api.security.UserDto;
 import ru.apiexternal.dao.security.AccountRoleDao;
 import ru.apiexternal.dao.security.AccountUserDao;
 import ru.apiexternal.entity.security.AccountRole;
 import ru.apiexternal.entity.security.AccountUser;
 import ru.apiexternal.entity.security.enums.AccountStatus;
+import ru.apiexternal.exeption.InvalidUsernameOrPasswordException;
 import ru.apiexternal.exeption.UserNotFoundException;
 import ru.apiexternal.exeption.UsernameAlreadyExistsException;
 import ru.apiexternal.rest.mapper.UserMapper;
@@ -100,6 +102,22 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         return accountUserDao.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username: " + username + " not found.")
         );
+    }
+
+    @Override
+    public AccountUser findByUsernameAndPassword(AuthenticationUserDto authenticationUserDto) {
+        AccountUser accountUser = accountUserDao.findByUsername(authenticationUserDto.getUsername()).orElseThrow(
+                () -> new UsernameNotFoundException("Username: " + authenticationUserDto.getUsername() + " not found."));
+//        accountUser.getPassword();
+        if (passwordEncoder.matches(authenticationUserDto.getPassword(), accountUser.getPassword())) {
+            return accountUser;
+        } else {
+            throw new InvalidUsernameOrPasswordException("Invalid username or password.");
+        }
+//        String password = passwordEncoder.encode(authenticationUserDto.getPassword());
+//        return accountUserDao.findByUsernameAndPassword(authenticationUserDto.getUsername(), password).orElseThrow(
+//                () -> new InvalidUsernameOrPasswordException("Invalid username or password.")
+//        );
     }
 
     @Override

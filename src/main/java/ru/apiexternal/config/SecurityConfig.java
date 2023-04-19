@@ -1,7 +1,6 @@
 package ru.apiexternal.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
     public static final String USER_ENDPOINT = "/api/v1/user";
-    public static final String REGISTRATION_ENDPOINT = "/api/v1/auth/register";
+//    public static final String REGISTRATION_ENDPOINT = "/api/v1/auth/register";
+    public static final String REGISTRATION_ENDPOINT = "/api/v1/user/register";
 
     private final JwtConfigurer jwtConfigurer;
 
