@@ -14,7 +14,6 @@ import ru.apiexternal.entity.security.AccountRole;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
@@ -26,11 +25,8 @@ public class JwtTokenProvider {
 
     @Value("${jwt.token.expired}")
     private long expired;
-
     @Value("${jwt.token.secret}")
     private String secret;
-
-    private final Sessions sessions;
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
@@ -54,13 +50,9 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        HttpSession session = request.getSession();
         String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Bearer ")) {
-            //            return authorization.substring(7);
-            String savedToken = sessions.getSessionToken().get(session);
-            String token = authorization.substring(7);
-            return token.equals(savedToken) ? token : null;
+            return authorization.substring(7);
         }
         return null;
     }

@@ -2,6 +2,7 @@ package ru.apiexternal.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.api.product.api.ProductGateway;
@@ -27,11 +28,13 @@ public class ProductRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('product.create')")
     public ResponseEntity<?> addProduct(@Validated @RequestBody ProductDto productDto) {
         return productGateway.addProduct(productDto);
     }
 
     @PutMapping("/{productId}")
+    @PreAuthorize("hasAnyAuthority('product.update')")
     public ResponseEntity<?> updateProduct(@PathVariable(name = "productId") Long id,
                                            @Validated @RequestBody ProductDto productDto) {
         return productGateway.updateProduct(id, productDto);

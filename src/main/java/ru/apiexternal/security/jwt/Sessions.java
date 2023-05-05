@@ -3,7 +3,6 @@ package ru.apiexternal.security.jwt;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import java.util.Map;
 @Setter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class Sessions {
-    private final Map<HttpSession, String> sessionToken = new HashMap<>();
+    private final Map<String, String> sessionToken = new HashMap<>();
 }
