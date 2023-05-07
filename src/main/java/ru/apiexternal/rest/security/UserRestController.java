@@ -50,7 +50,7 @@ public class UserRestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> addUser(@Validated @RequestBody UserDto userDto) {
         try {
             UserDto savedUser = userService.register(userDto);
